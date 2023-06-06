@@ -8,7 +8,7 @@ public class ObjectHit : MonoBehaviour
     {
         if(collision.gameObject.tag == "Player")
         {
-            Debug.Log("HIT!!");
+            this.gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
         }
     }
 }

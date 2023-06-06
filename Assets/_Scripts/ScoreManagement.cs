@@ -6,11 +6,6 @@ public class ScoreManagement : MonoBehaviour
 {
     public int score = 0;
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        IncrementScore();
-    }
-
     public void IncrementScore()
     {
         score++;

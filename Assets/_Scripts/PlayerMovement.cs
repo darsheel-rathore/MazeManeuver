@@ -10,12 +10,6 @@ public class PlayerMovement : MonoBehaviour
 
     private float xValue, yValue = 0f, zValue;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {

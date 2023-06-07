@@ -1,57 +1,57 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField]
-    public float moveSpeed = 1f;
+    private float rotationSpeed = 200f;
+    [SerializeField]
+    private float movementSpeed = 100f;
 
-    private float xValue, yValue = 0f, zValue;
+    private Quaternion tempRotationValue = Quaternion.identity;
+    private Rigidbody rb;
+    private float playerIdealPosition;
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        if (Input.anyKey)
-        {
-            // Movement of the player through Input.GetKey
-            //MovementThroughGetKey();
+        rb = GetComponent<Rigidbody>();
+        playerIdealPosition = gameObject.GetComponent<Transform>().position.y;
+    }
 
-            // Movement of the player through Input.GetAxis
-            MovementThroughGetAxis();
+    private void Update()
+    {
+        // Horizontal axis only controls rotation
+        if(Input.GetAxis("Horizontal") != 0)
+        {
+            float horizontalInput = Input.GetAxis("Horizontal");
+            transform.Rotate(0, horizontalInput * rotationSpeed * Time.deltaTime, 0);
+        }
+        // vertical axis only controls the velocity 
+        if(Input.GetAxis("Vertical") != 0)
+        {
+            float verticalInput = Input.GetAxis("Vertical");
+            transform.Translate(0, 0, verticalInput * movementSpeed * Time.deltaTime);
         }
     }
 
-    private void MovementThroughGetKey()
+    private void OnCollisionEnter(Collision collision)
     {
-        Vector3 movement = Vector3.zero;
-
-        if(Input.GetKey(KeyCode.LeftArrow))
-        {
-            movement += Vector3.left * moveSpeed;
-        }
-        if(Input.GetKey(KeyCode.RightArrow))
-        {
-            movement += Vector3.right * moveSpeed;
-        }
-        if(Input.GetKey(KeyCode.UpArrow))
-        {
-            movement += Vector3.forward * moveSpeed;
-        }
-        if(Input.GetKey(KeyCode.DownArrow))
-        {
-            movement += Vector3.back * moveSpeed;
-        }
-
-        transform.Translate(movement * Time.deltaTime);
+        tempRotationValue = gameObject.transform.rotation;
+        tempRotationValue.x = 0;
+        tempRotationValue.z = 0;
     }
 
-    private void MovementThroughGetAxis()
+    private void OnCollisionExit(Collision collision)
     {
-        xValue = Input.GetAxis("Horizontal") * Time.deltaTime * moveSpeed;
-        zValue = Input.GetAxis("Vertical") * Time.deltaTime * moveSpeed;
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        rb.rotation = tempRotationValue;
+        
+        this.gameObject.transform.position =
+            new Vector3(this.gameObject.transform.position.x, playerIdealPosition, this.gameObject.transform.position.z);
 
-        transform.Translate(xValue, yValue, zValue);
     }
 }

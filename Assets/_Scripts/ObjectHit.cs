@@ -7,7 +7,7 @@ public class ObjectHit : MonoBehaviour
     private bool isHit = false;
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player")
         {
             if (!isHit)
             {
@@ -23,6 +23,9 @@ public class ObjectHit : MonoBehaviour
     // This Event will make sure that player hasn't have any velocity
     private void OnCollisionExit(Collision collision)
     {
-        collision.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        if (collision.gameObject.tag == "Player")
+        {
+            collision.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        } 
     }
 }

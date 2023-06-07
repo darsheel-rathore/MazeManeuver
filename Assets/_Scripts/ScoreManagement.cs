@@ -10,9 +10,4 @@ public class ScoreManagement : MonoBehaviour
     {
         score++;
     }
-    
-    public void DecrementScore()
-    {
-        score--;
-    }
 }

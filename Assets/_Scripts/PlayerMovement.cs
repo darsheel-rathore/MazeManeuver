@@ -6,10 +6,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField]
-    private float rotationSpeed = 200f;
-    [SerializeField]
-    private float movementSpeed = 100f;
+    [SerializeField] private float rotationSpeed = 200f;
+    [SerializeField] private float movementSpeed = 100f;
 
     private Quaternion tempRotationValue = Quaternion.identity;
     private Rigidbody rb;
@@ -46,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
-        rb.velocity = Vector3.zero;
+        //rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         rb.rotation = tempRotationValue;
         
